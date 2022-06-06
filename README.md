@@ -8,7 +8,7 @@
     VagrantFile:
       v.memory = 1024
       v.cpus = 2
-#или 
+или 
       config.vm.provider "virtualbox" do |vb|
         vb.memory = "1024"
         vb.cpu = "2"
