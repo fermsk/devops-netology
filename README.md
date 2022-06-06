@@ -37,8 +37,8 @@
 
 #В man bash поищите по /\[\[. Что делает конструкция [[ -d /tmp ]]
 
-   проверяет условие у -d /tmp и возвращает его статус (0 или 1), наличие катаолга /tmp
-   Например :
+     проверяет условие у -d /tmp и возвращает его статус (0 или 1), наличие катаолга /tmp
+     Например :
     if [[ -d /tmp ]]
     then
     echo "dir exists"
@@ -47,29 +47,29 @@
 
 #Основываясь на знаниях о просмотре текущих (например, PATH) и установке новых переменных; командах, которые мы рассматривали, добейтесь в выводе type -a bash в виртуальной машине наличия первым пунктом в списке:
 
-vagrant@vagrant:~$ mkdir /tmp/new_path_dir/
-vagrant@vagrant:~$ cp /bin/bash /tmp/new_path_dir/
-vagrant@vagrant:~$ type -a bash
-bash is /usr/bin/bash
-bash is /bin/bash
-vagrant@vagrant:~$ PATH=/tmp/new_path_dir/:$PATH
-vagrant@vagrant:~$ type -a bash
-bash is /tmp/new_path_dir/bash
-bash is /usr/bin/bash
-bash is /bin/bash
+        vagrant@vagrant:~$ mkdir /tmp/new_path_dir/
+        vagrant@vagrant:~$ cp /bin/bash /tmp/new_path_dir/
+        vagrant@vagrant:~$ type -a bash
+        bash is /usr/bin/bash
+        bash is /bin/bash
+        vagrant@vagrant:~$ PATH=/tmp/new_path_dir/:$PATH
+        vagrant@vagrant:~$ type -a bash
+        bash is /tmp/new_path_dir/bash
+        bash is /usr/bin/bash
+        bash is /bin/bash
 
 #Чем отличается планирование команд с помощью batch и at?
 
-at - команда запускается в указанное время (в параметре)
-batch - запускается когда уровень загрузки системы снизится ниже 1.5.
+    at - команда запускается в указанное время (в параметре)
+    batch - запускается когда уровень загрузки системы снизится ниже 1.5.
 
 #Завершите работу виртуальной машины чтобы не расходовать ресурсы компьютера и/или батарею ноутбука.
 
-vagrant@vagrant:~$ exit
-logout
-Connection to 127.0.0.1 closed.
-PS C:\Windows\system32> vagrant halt
-==> default: Attempting graceful shutdown of VM...
+    vagrant@vagrant:~$ exit
+    logout
+    Connection to 127.0.0.1 closed.
+    PS C:\Windows\system32> vagrant halt
+    ==> default: Attempting graceful shutdown of VM...
 
 
 
