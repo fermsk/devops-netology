@@ -33,6 +33,28 @@
         
 #Получится ли одновременно передать команде файл на stdin и вывести ее stdout в другой файл? Приведите работающий пример.
 
+        vagrant@vagrant:~$ cat tst_bash
+        if [[ -d /tmp ]];
+        netology
+        netologynetology
+        54321
+        new line
+        vagrant@vagrant:~$ cat tst_bash_out
+        cat: tst_bash_out: No such file or directory 
+        vagrant@vagrant:~$ cat <tst_bash >tst_bash_out
+        vagrant@vagrant:~$ cat tst_bash_out
+        if [[ -d /tmp ]];
+        netology
+        netologynetology
+        54321
+        new line
+        vagrant@vagrant:~$
+        
+#Получится ли находясь в графическом режиме, вывести данные из PTY в какой-либо из эмуляторов TTY? Сможете ли вы наблюдать выводимые данные?
+
+
+        
+
         
 
         
