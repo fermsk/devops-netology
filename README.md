@@ -10,8 +10,8 @@
 
         vagrant@vagrant:~$ cat tst_bash
         if [[ -d /tmp ]];
-        netilogy
-        netilogynetilogy
+        netology
+        netologynetology
         54321
         vagrant@vagrant:~$ grep 54321 tst_bash -c
         1
