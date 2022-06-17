@@ -6,7 +6,45 @@ ________________________________________________________________________________
     -поместите его в автозагрузку;
     -предусмотрите возможность добавления опций к запускаемому процессу через внешний файл (посмотрите, например, на systemctl cat cron);
     -удостоверьтесь, что с помощью systemctl процесс корректно стартует, завершается, а после перезагрузки автоматически поднимается.
+    
+![image](https://user-images.githubusercontent.com/104899352/174306006-3fa0ebeb-93e8-44fb-b1a2-d891557a2e07.png)
+        
+        Сервис стартует и перезапускается корректно:
+        femsk@femsk-virtual-machine:~$ ps -e |grep node_exporter
+        1952 ?        00:00:00 node_exporter
+        femsk@femsk-virtual-machine:~$ systemctl stop node_exporter
+        ==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+        Authentication is required to stop 'node_exporter.service'.
+        Authenticating as: admin,,, (femsk)
+        Password:
+        ==== AUTHENTICATION COMPLETE ===
+        femsk@femsk-virtual-machine:~$ ps -e |grep node_exporter
+        femsk@femsk-virtual-machine:~$ systemctl start node_exporter
+        ==== AUTHENTICATING FOR org.freedesktop.systemd1.manage-units ===
+        Authentication is required to start 'node_exporter.service'.
+        Authenticating as: admin,,, (femsk)
+        Password:
+        ==== AUTHENTICATION COMPLETE ===
+        femsk@femsk-virtual-machine:~$ ps -e |grep node_exporter
+        2420 ?        00:00:00 node_exporter
+        femsk@femsk-virtual-machine:~$
+        
+        Прописан конфигруационный файл:
+        [Unit]
+        Description=Prometheus Node Exporter
+        Wants=network-online.target
+        After=network-online.target
 
+        [Service]
+        User=node_exporter
+        Group=node_exporter
+        Type=simple
+        ExecStart=/usr/local/bin/node_exporter
+
+        [Install]
+        WantedBy=multi-user.target
+        
+        
 #2. Ознакомьтесь с опциями node_exporter и выводом /metrics по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
 #3.Установите в свою виртуальную машину Netdata. Воспользуйтесь готовыми пакетами для установки (sudo apt install -y netdata). После успешной установки:
