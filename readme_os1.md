@@ -24,8 +24,14 @@ _________________________________________
     В man file также указан файл usr/share/misc/magic.mgc
     
 #3. Предположим, приложение пишет лог в текстовый файл. Этот файл оказался удален (deleted в lsof), однако возможности сигналом сказать приложению переоткрыть файлы или просто перезапустить приложение – нет. Так как приложение продолжает писать в удаленный файл, место на диске постепенно заканчивается. Основываясь на знаниях о перенаправлении потоков предложите способ обнуления открытого удаленного файла (чтобы освободить место на файловой системе).
-
         
+        femsk@femsk-virtual-machine:~/Netology$ touch file_log.txt
+        femsk@femsk-virtual-machine:~/Netology$ less +F file_log.txt >/dev/null &
+        [7] 9299
+        femsk@femsk-virtual-machine:~/Netology$ rm -f file_log.txt
+        femsk@femsk-virtual-machine:~/Netology$ sudo lsof | grep deleted
+        less    9299     femsk   REG  253,2 1073741824   11 /home/femsk/Netology/file_log (deleted)
+        sudo kill -9 9299        
 
 #4. Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
 
@@ -66,8 +72,6 @@ _________________________________________
     682    vmtoolsd            7   0 /proc/uptime
     682    vmtoolsd            7   0 /proc/meminfo
     682    vmtoolsd            7   0 /proc/vmstat
-
-
 
 
 #6. Какой системный вызов использует uname -a? Приведите цитату из man по этому системному вызову, где описывается альтернативное местоположение в /proc, где можно узнать версию ядра и релиз ОС.
