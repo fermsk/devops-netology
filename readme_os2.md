@@ -44,6 +44,23 @@ ________________________________________________________________________________
         [Install]
         WantedBy=multi-user.target
         
+        На примере запуска cron:
+        femsk@femsk-virtual-machine:~$ systemctl cat cron
+        # /lib/systemd/system/cron.service
+        [Unit]
+        Description=Regular background program processing daemon
+        Documentation=man:cron(8)
+        After=remote-fs.target nss-user-lookup.target
+
+        [Service]
+        EnvironmentFile=-/etc/default/cron
+        
+        ExecStart=/usr/sbin/cron -f $EXTRA_OPTS
+        IgnoreSIGPIPE=false
+        KillMode=process
+        Restart=on-failure
+        
+        Можем передавать опции в запускаемый процесс.        
         
 #2. Ознакомьтесь с опциями node_exporter и выводом /metrics по-умолчанию. Приведите несколько опций, которые вы бы выбрали для базового мониторинга хоста по CPU, памяти, диску и сети.
 
