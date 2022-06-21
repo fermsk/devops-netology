@@ -31,7 +31,10 @@ _________________________________________
         femsk@femsk-virtual-machine:~/Netology$ rm -f file_log.txt
         femsk@femsk-virtual-machine:~/Netology$ sudo lsof | grep deleted
         less    9299     femsk   REG  253,2 1073741824   11 /home/femsk/Netology/file_log (deleted)
-        sudo kill -9 9299        
+        sudo kill -9 9299
+        ________________________________________________
+       Исправление:
+       femsk@femsk-virtual-machine:~/Netology$ cat /proc/9299/fd/4 > /home/femsk/Netology/file.new
 
 #4. Занимают ли зомби-процессы какие-то ресурсы в ОС (CPU, RAM, IO)?
 
