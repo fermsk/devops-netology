@@ -145,7 +145,31 @@ ________________________________________________________________________________
        
 #7. Соберите mdadm RAID0 на второй паре маленьких разделов.
 
-
+        root@femsk-virtual-machine:~# mdadm --create --verbose /dev/md0 -l 1 -n 2 /dev/sd{b2,c2}
+        mdadm: Note: this array has metadata at the start and
+        may not be suitable as a boot device.  If you plan to
+        store '/boot' on this device please ensure that
+        your boot-loader understands md/v1.x metadata, or use
+        --metadata=0.90
+        mdadm: size set to 666624K
+        Continue creating array? Y
+        mdadm: Defaulting to version 1.2 metadata
+        mdadm: array /dev/md0 started.
+        root@femsk-virtual-machine:~# lsblk
+        NAME    MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+        ...
+        sdb       8:16   0   2,5G  0 disk
+        ├─sdb1    8:17   0   1,9G  0 part
+        │ └─md1   9:1    0   1,9G  0 raid1
+        └─sdb2    8:18   0   652M  0 part
+         └─md0   9:0    0   651M  0 raid1
+        sdc       8:32   0   2,5G  0 disk
+        ├─sdc1    8:33   0   1,9G  0 part
+        │ └─md1   9:1    0   1,9G  0 raid1
+        └─sdc2    8:34   0   652M  0 part
+          └─md0   9:0    0   651M  0 raid1
+        sr0      11:0    1  1024M  0 rom
+        root@femsk-virtual-machine:~#
 
 #8. Создайте 2 независимых PV на получившихся md-устройствах.
 
