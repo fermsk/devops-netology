@@ -339,7 +339,7 @@ ________________________________________________________________________________
         Failed Devices : 1
         Spare Devices : 0
 
-Consistency Policy : resync
+        Consistency Policy : resync
 
               Name : femsk-virtual-machine:1  (local to host femsk-virtual-machine)
               UUID : a5841561:1aec4114:77cc8449:93888760
