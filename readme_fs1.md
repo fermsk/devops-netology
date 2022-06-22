@@ -169,11 +169,12 @@ ________________________________________________________________________________
         └─sdc2    8:34   0   652M  0 part
           └─md0   9:0    0   651M  0 raid1
         sr0      11:0    1  1024M  0 rom
-        root@femsk-virtual-machine:~#
-
+   
 #8. Создайте 2 независимых PV на получившихся md-устройствах.
 
-
+        root@femsk-virtual-machine:~# pvcreate /dev/md1 /dev/md0
+        Physical volume "/dev/md1" successfully created.
+        Physical volume "/dev/md0" successfully created.
 
 #9. Создайте общую volume-group на этих двух PV.
 
