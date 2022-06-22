@@ -1,15 +1,34 @@
 #Домашнее задание к занятию "3.5. Файловые системы"
-
+__________________________________________________________________________________________
 #1. Узнайте о sparse (разряженных) файлах.
 
-
+        Ознакомился:
+        https://habr.com/ru/company/hetmansoftware/blog/553474/
 
 #2. Могут ли файлы, являющиеся жесткой ссылкой на один объект, иметь разные права доступа и владельца? Почему?
 
+    hardlink -это ссылка на тот же самый файл и имеет тот же inode, владелец и права будут соответственно аналогичными.
+    femsk@femsk-virtual-machine:~$ cd ./Netology/
+    femsk@femsk-virtual-machine:~/Netology$ touch hardlink.hl
+    femsk@femsk-virtual-machine:~/Netology$ ln hardlink.hl hardlink.hl_link
+    femsk@femsk-virtual-machine:~/Netology$ ls -ilh
+    total 12K
+    1443159 -rw-rw-r-- 1 femsk femsk 12K июн 21 16:20 file.new
+    1443075 -rw-rw-r-- 2 femsk femsk   0 июн 22 09:00 hardlink.hl
+    1443075 -rw-rw-r-- 2 femsk femsk   0 июн 22 09:00 hardlink.hl_link
+    femsk@femsk-virtual-machine:~/Netology$ chmod 0555 hardlink.hl
+    femsk@femsk-virtual-machine:~/Netology$ ls -ilh
+    total 12K
+    1443159 -rw-rw-r-- 1 femsk femsk 12K июн 21 16:20 file.new
+    1443075 -r-xr-xr-x 2 femsk femsk   0 июн 22 09:00 hardlink.hl
+    1443075 -r-xr-xr-x 2 femsk femsk   0 июн 22 09:00 hardlink.hl_link
+    femsk@femsk-virtual-machine:~/Netology$
 
 
 #3. Сделайте vagrant destroy на имеющийся инстанс Ubuntu. Замените содержимое Vagrantfile следующим:
 
+    !!!В офисе использую VMware, машина для выполнения заданий развернута в нём!!!
+    
     Vagrant.configure("2") do |config|
       config.vm.box = "bento/ubuntu-20.04"
       config.vm.provider :virtualbox do |vb|
@@ -21,12 +40,62 @@
         vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', lvm_experiments_disk1_path]
       end
     end
-Данная конфигурация создаст новую виртуальную машину с двумя дополнительными неразмеченными дисками по 2.5 Гб.
-
+        Данная конфигурация создаст новую виртуальную машину с двумя дополнительными неразмеченными дисками по 2.5 Гб.
+        femsk@femsk-virtual-machine:~$ lsblk
+        NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+        loop0    7:0    0     4K  1 loop /snap/bare/5
+        loop1    7:1    0  61,9M  1 loop /snap/core20/1328
+        loop2    7:2    0  61,9M  1 loop /snap/core20/1518
+        loop3    7:3    0 254,1M  1 loop /snap/gnome-3-38-2004/106
+        loop4    7:4    0  65,2M  1 loop /snap/gtk-common-themes/1519
+        loop5    7:5    0 248,8M  1 loop /snap/gnome-3-38-2004/99
+        loop6    7:6    0  81,3M  1 loop /snap/gtk-common-themes/1534
+        loop7    7:7    0  54,2M  1 loop /snap/snap-store/558
+        loop8    7:8    0    47M  1 loop /snap/snapd/16010
+        loop9    7:9    0  43,6M  1 loop /snap/snapd/14978
+        sda      8:0    0    30G  0 disk
+        ├─sda1   8:1    0   512M  0 part /boot/efi
+        ├─sda2   8:2    0     1K  0 part
+        └─sda5   8:5    0  29,5G  0 part /
+        sdb      8:16   0   2,5G  0 disk
+        sdc      8:32   0   2,5G  0 disk
+        sr0     11:0    1  1024M  0 rom
+             
 #4. Используя fdisk, разбейте первый диск на 2 раздела: 2 Гб, оставшееся пространство.
-
-
-
+        
+        femsk@femsk-virtual-machine:~$ sudo -i
+        root@femsk-virtual-machine:~# fdisk /dev/sdb
+        Welcome to fdisk (util-linux 2.34).
+        ...
+        Command (m for help): n
+        Partition type
+        p   primary (0 primary, 0 extended, 4 free)
+        e   extended (container for logical partitions)
+        Select (default p): p
+        Partition number (1-4, default 1): 1
+        First sector (2048-5242879, default 2048): 2048
+        Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-5242879, default 5242879): +2Gb
+        Created a new partition 1 of type 'Linux' and of size 1,9 GiB.
+        Command (m for help): n
+        Partition type
+        p   primary (1 primary, 0 extended, 3 free)
+        e   extended (container for logical partitions)
+        Select (default p): p
+        Partition number (2-4, default 2): 2
+        First sector (3907584-5242879, default 3907584): 3907584
+        Last sector, +/-sectors or +/-size{K,M,G,T,P} (3907584-5242879, default 5242879): 5242879
+        Created a new partition 2 of type 'Linux' and of size 652 MiB.
+        Command (m for help): w
+        The partition table has been altered.
+        Calling ioctl() to re-read partition table.
+        Syncing disks.
+        root@femsk-virtual-machine:~# lsblk
+        NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+        ...        
+        sdb      8:16   0   2,5G  0 disk
+        ├─sdb1   8:17   0   1,9G  0 part
+        └─sdb2   8:18   0   652M  0 part
+    
 #5. Используя sfdisk, перенесите данную таблицу разделов на второй диск.
 
 
