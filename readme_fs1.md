@@ -178,15 +178,47 @@ ________________________________________________________________________________
 
 #9. Создайте общую volume-group на этих двух PV.
 
-
+        root@femsk-virtual-machine:~# vgcreate vol_g1 /dev/md1 /dev/md0
+        Volume group "vol_g1" successfully created
+        root@femsk-virtual-machine:~# vgdisplay
+        --- Volume group ---
+        VG Name               vol_g1
+        System ID
+        Format                lvm2
+        Metadata Areas        2
+        Metadata Sequence No  1
+        VG Access             read/write
+        VG Status             resizable
+        MAX LV                0
+        Cur LV                0
+        Open LV               0
+        Max PV                0
+        Cur PV                2
+        Act PV                2
+        VG Size               2,49 GiB
+        PE Size               4,00 MiB
+        Total PE              638
+        Alloc PE / Size       0 / 0
+        Free  PE / Size       638 / 2,49 GiB
+        VG UUID               6dEncz-yh8N-zu0t-tmSv-oI57-JVc8-6RJ3we
 
 #10. Создайте LV размером 100 Мб, указав его расположение на PV с RAID0.
 
-
+        root@femsk-virtual-machine:~# lvcreate -L 100M vol_g1 /dev/md0
+        Logical volume "lvol0" created.
+        root@femsk-virtual-machine:~# lvs
+        LV    VG     Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+        lvol0 vol_g1 -wi-a----- 100,00m
 
 #11. Создайте mkfs.ext4 ФС на получившемся LV.
 
-
+        root@femsk-virtual-machine:~# mkfs.ext4 /dev/vol_g1/lvol0
+        mke2fs 1.45.5 (07-Jan-2020)
+        Creating filesystem with 25600 4k blocks and 25600 inodes
+        Allocating group tables: done
+        Writing inode tables: done
+        Creating journal (1024 blocks): done
+        Writing superblocks and filesystem accounting information: done
 
 #12. Смонтируйте этот раздел в любую директорию, например, /tmp/new.
 
