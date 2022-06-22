@@ -98,7 +98,25 @@ ________________________________________________________________________________
     
 #5. Используя sfdisk, перенесите данную таблицу разделов на второй диск.
 
-
+        root@femsk-virtual-machine:~# sfdisk -d /dev/sdb|sfdisk --force /dev/sdc
+        Checking that no-one is using this disk right now ... OK
+        Disk /dev/sdc: 2,51 GiB, 2684354560 bytes, 5242880 sectors
+        Disk model: Virtual disk
+        ...
+        Device     Boot   Start     End Sectors  Size Id Type
+        /dev/sdc1          2048 3907583 3905536  1,9G 83 Linux
+        /dev/sdc2       3907584 5242879 1335296  652M 83 Linux
+        The partition table has been altered.
+        ...
+        root@femsk-virtual-machine:~# lsblk
+        NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT
+        sdb      8:16   0   2,5G  0 disk
+        ├─sdb1   8:17   0   1,9G  0 part
+        └─sdb2   8:18   0   652M  0 part
+        sdc      8:32   0   2,5G  0 disk
+        ├─sdc1   8:33   0   1,9G  0 part
+        └─sdc2   8:34   0   652M  0 part
+        sr0     11:0    1  1024M  0 rom
 
 #6. Соберите mdadm RAID1 на паре разделов 2 Гб.
 
