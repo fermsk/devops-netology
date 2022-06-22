@@ -222,10 +222,57 @@ ________________________________________________________________________________
 
 #12. Смонтируйте этот раздел в любую директорию, например, /tmp/new.
 
+        root@femsk-virtual-machine:~# mkdir /tmp/new
+        root@femsk-virtual-machine:~# mount /dev/vol_g1/lvol0 /tmp/new
+        root@femsk-virtual-machine:~#
 
 #13. Поместите туда тестовый файл, например wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz.
 
+        root@femsk-virtual-machine:~# wget https://mirror.yandex.ru/ubuntu/ls-lR.gz -O /tmp/new/test.gz
+        --2022-06-22 10:30:57--  https://mirror.yandex.ru/ubuntu/ls-lR.gz
+        Resolving mirror.yandex.ru (mirror.yandex.ru)... 213.180.204.183, 2a02:6b8::183
+        Connecting to mirror.yandex.ru (mirror.yandex.ru)|213.180.204.183|:443... connected.
+        HTTP request sent, awaiting response... 200 OK
+        Length: 23674793 (23M) [application/octet-stream]
+        Saving to: ‘/tmp/new/test.gz’
+        /tmp/new/test.gz                   100%[=============================================================>]  22,58M  14,6MB/s    in 1,5s
+        2022-06-22 10:30:58 (14,6 MB/s) - ‘/tmp/new/test.gz’ saved [23674793/23674793]
+        root@femsk-virtual-machine:~# ls -l /tmp/new/
+        total 23136
+        drwx------ 2 root root    16384 июн 22 10:27 lost+found
+        -rw-r--r-- 1 root root 23674793 июн 22 09:43 test.gz
+
 #14. Прикрепите вывод lsblk.
+
+        root@femsk-virtual-machine:~# lsblk
+        NAME               MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+        loop0                7:0    0     4K  1 loop  /snap/bare/5
+        loop1                7:1    0  61,9M  1 loop  /snap/core20/1328
+        loop2                7:2    0  61,9M  1 loop  /snap/core20/1518
+        loop3                7:3    0 254,1M  1 loop  /snap/gnome-3-38-2004/106
+        loop4                7:4    0  65,2M  1 loop  /snap/gtk-common-themes/1519
+        loop5                7:5    0 248,8M  1 loop  /snap/gnome-3-38-2004/99
+        loop6                7:6    0  81,3M  1 loop  /snap/gtk-common-themes/1534
+        loop7                7:7    0  54,2M  1 loop  /snap/snap-store/558
+        loop8                7:8    0    47M  1 loop  /snap/snapd/16010
+        loop9                7:9    0  43,6M  1 loop  /snap/snapd/14978
+        sda                  8:0    0    30G  0 disk
+        ├─sda1               8:1    0   512M  0 part  /boot/efi
+        ├─sda2               8:2    0     1K  0 part
+        └─sda5               8:5    0  29,5G  0 part  /
+        sdb                  8:16   0   2,5G  0 disk
+        ├─sdb1               8:17   0   1,9G  0 part
+        │ └─md1              9:1    0   1,9G  0 raid1
+        └─sdb2               8:18   0   652M  0 part
+          └─md0              9:0    0   651M  0 raid1
+            └─vol_g1-lvol0 253:0    0   100M  0 lvm   /tmp/new
+        sdc                  8:32   0   2,5G  0 disk
+        ├─sdc1               8:33   0   1,9G  0 part
+        │ └─md1              9:1    0   1,9G  0 raid1
+        └─sdc2               8:34   0   652M  0 part
+          └─md0              9:0    0   651M  0 raid1
+            └─vol_g1-lvol0 253:0    0   100M  0 lvm   /tmp/new
+        sr0                 11:0    1  1024M  0 rom
 
 #15. Протестируйте целостность файла:
 
@@ -233,23 +280,100 @@ ________________________________________________________________________________
     root@vagrant:~# echo $?
     0
     
+    root@femsk-virtual-machine:~# gzip -t /tmp/new/test.gz && echo $?
+    0
     
 #16. Используя pvmove, переместите содержимое PV с RAID0 на RAID1.
 
-
+        root@femsk-virtual-machine:~# pvmove /dev/md0
+        /dev/md0: Moved: 0,00%
+        /dev/md0: Moved: 100,00%
+        root@femsk-virtual-machine:~# lsblk
+        NAME               MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINT
+        loop0                7:0    0     4K  1 loop  /snap/bare/5
+        loop1                7:1    0  61,9M  1 loop  /snap/core20/1328
+        loop2                7:2    0  61,9M  1 loop  /snap/core20/1518
+        loop3                7:3    0 254,1M  1 loop  /snap/gnome-3-38-2004/106
+        loop4                7:4    0  65,2M  1 loop  /snap/gtk-common-themes/1519
+        loop5                7:5    0 248,8M  1 loop  /snap/gnome-3-38-2004/99
+        loop6                7:6    0  81,3M  1 loop  /snap/gtk-common-themes/1534
+        loop7                7:7    0  54,2M  1 loop  /snap/snap-store/558
+        loop8                7:8    0    47M  1 loop  /snap/snapd/16010
+        loop9                7:9    0  43,6M  1 loop  /snap/snapd/14978
+        sda                  8:0    0    30G  0 disk
+        ├─sda1               8:1    0   512M  0 part  /boot/efi
+        ├─sda2               8:2    0     1K  0 part
+        └─sda5               8:5    0  29,5G  0 part  /
+        sdb                  8:16   0   2,5G  0 disk
+        ├─sdb1               8:17   0   1,9G  0 part
+        │ └─md1              9:1    0   1,9G  0 raid1
+        │   └─vol_g1-lvol0 253:0    0   100M  0 lvm   /tmp/new
+        └─sdb2               8:18   0   652M  0 part
+          └─md0              9:0    0   651M  0 raid1
+        sdc                  8:32   0   2,5G  0 disk
+        ├─sdc1               8:33   0   1,9G  0 part
+        │ └─md1              9:1    0   1,9G  0 raid1
+        │   └─vol_g1-lvol0 253:0    0   100M  0 lvm   /tmp/new
+        └─sdc2               8:34   0   652M  0 part
+          └─md0              9:0    0   651M  0 raid1
+        sr0                 11:0    1  1024M  0 rom
 
 #17. Сделайте --fail на устройство в вашем RAID1 md.
 
+        root@femsk-virtual-machine:~# mdadm /dev/md1 --fail /dev/sdb1
+        mdadm: set /dev/sdb1 faulty in /dev/md1
+        root@femsk-virtual-machine:~# mdadm -D /dev/md1
+        /dev/md1:
+           Version : 1.2
+        Creation Time : Wed Jun 22 10:10:10 2022
+        Raid Level : raid1
+        Array Size : 1950720 (1905.00 MiB 1997.54 MB)
+        Used Dev Size : 1950720 (1905.00 MiB 1997.54 MB)
+        Raid Devices : 2
+        Total Devices : 2
+        Persistence : Superblock is persistent
+        Update Time : Wed Jun 22 10:44:00 2022
+             State : clean, degraded
+        Active Devices : 1
+        Working Devices : 1
+        Failed Devices : 1
+        Spare Devices : 0
 
+Consistency Policy : resync
+
+              Name : femsk-virtual-machine:1  (local to host femsk-virtual-machine)
+              UUID : a5841561:1aec4114:77cc8449:93888760
+            Events : 19
+
+    Number   Major   Minor   RaidDevice State
+       -       0        0        0      removed
+       1       8       33        1      active sync   /dev/sdc1
+
+       0       8       17        -      faulty   /dev/sdb1
 
 #18. Подтвердите выводом dmesg, что RAID1 работает в деградированном состоянии.
 
-
+        root@femsk-virtual-machine:~# dmesg |grep md1
+        [ 3483.929056] md/raid1:md1: not clean -- starting background reconstruction
+        [ 3483.929062] md/raid1:md1: active with 2 out of 2 mirrors
+        [ 3483.929081] md1: detected capacity change from 0 to 3901440
+        [ 3483.930426] md: resync of RAID array md1
+        [ 3523.765813] md: md1: resync done.
+        [ 5513.598807] md/raid1:md1: Disk failure on sdb1, disabling device.
+        md/raid1:md1: Operation continuing on 1 devices.
 
 #19. Протестируйте целостность файла, несмотря на "сбойный" диск он должен продолжать быть доступен:
 
     root@vagrant:~# gzip -t /tmp/new/test.gz
     root@vagrant:~# echo $?
     0
+    Файл доступен несмотря на "сбойный" диск:  
+    root@femsk-virtual-machine:~# gzip -t /tmp/new/test.gz && echo $?
+    0
     
 #20. Погасите тестовый хост, vagrant destroy.
+
+        !!!В офисе использую VMware, машина для выполнения заданий развернута в нём!!!
+        
+        \_()_/
+
