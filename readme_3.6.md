@@ -87,3 +87,10 @@
 ![image](https://user-images.githubusercontent.com/104899352/176365322-312ba777-a54a-43ec-9532-551553447a8f.png)
 
 #8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой dig
+
+   femsk@femsk-virtual-machine:~$ dig -x 8.8.4.4 +noall +answer
+   4.4.8.8.in-addr.arpa.   85020   IN      PTR     dns.google.
+   femsk@femsk-virtual-machine:~$ dig -x 8.8.8.8 +noall +answer
+   8.8.8.8.in-addr.arpa.   86399   IN      PTR     dns.google.
+
+
