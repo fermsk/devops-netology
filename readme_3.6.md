@@ -55,7 +55,22 @@
     
 #3. Какой IP адрес у вас в интернете?
 
+    Задание выполняю в офисе, светить полный IP не могу:
+    femsk@femsk-virtual-machine:~$ wget -qO- eth0.me
+    91.199.X.X
+
 #4. Какому провайдеру принадлежит ваш IP адрес? Какой автономной системе AS? Воспользуйтесь утилитой whois
+
+    femsk@femsk-virtual-machine:~$ whois -h whois.ripe.net 91.199.X.X
+    % Information related to '91.199.X.0 - 91.199.X.255'
+    route:          91.199.X.0/24
+    descr:          xxxxxx
+    origin:         AS44799
+    mnt-by:         AS5537-MNT
+    mnt-routes:     MASTERTEL-MNT
+    created:        2008-03-28T09:09:05Z
+    last-modified:  2011-12-29T09:09:24Z
+    source:         RIPE
 
 #5. Через какие сети проходит пакет, отправленный с вашего компьютера на адрес 8.8.8.8? Через какие AS? Воспользуйтесь утилитой traceroute
 
