@@ -47,11 +47,11 @@
     проверьте время загрузки страницы, какой запрос обрабатывался дольше всего?
     приложите скриншот консоли браузера в ответ.
     
-    ![image](https://user-images.githubusercontent.com/104899352/176360310-cb1314e9-65fb-49dc-bb71-714c75665aa5.png)
+![image](https://user-images.githubusercontent.com/104899352/176360310-cb1314e9-65fb-49dc-bb71-714c75665aa5.png)
     
     HTTP код перенаправления  307 Temporary Redirect означает, что запрошенный ресурс был временно перемещён в URL-адрес, указанный в заголовке Location.
     
-    ![image](https://user-images.githubusercontent.com/104899352/176360904-d02c7159-2584-4b19-a2e4-37c9bd9d2f8c.png)
+![image](https://user-images.githubusercontent.com/104899352/176360904-d02c7159-2584-4b19-a2e4-37c9bd9d2f8c.png)
     
 #3. Какой IP адрес у вас в интернете?
 
