@@ -10,6 +10,34 @@
     [press enter]
     В ответе укажите полученный HTTP код, что он означает?
     
+    femsk@femsk-virtual-machine:~$ telnet stackoverflow.com 80
+    Trying 151.101.193.69...
+    Connected to stackoverflow.com.
+    Escape character is '^]'.
+    GET /questions HTTP/1.0
+    HOST: stackoverflow.com
+    HTTP/1.1 400 Bad Request
+    Connection: close
+    Content-Length: 0
+    Connection closed by foreign host.
+    femsk@femsk-virtual-machine:~$
+    
+    Отправленный запрос приводит к сбою еще до того, как его обработает сервер, соединенине закрывается.
+    Если изменить запрос, то мы увидим сообщение 301 о перемещении ресурса на URL указанный в заголовке Location:
+    GET /index.html HTTP/1.1
+    HOST: stackoverflow.com
+    HTTP/1.1 301 Moved Permanently
+    cache-control: no-cache, no-store, must-revalidate
+    location: https://stackoverflow.com/index.html
+    x-request-guid: 3d69673f-50af-4ceb-9b49-82716acb7b63
+    feature-policy: microphone 'none'; speaker 'none'
+    content-security-policy: upgrade-insecure-requests; frame-ancestors 'self' https://stackexchange.com
+    Accept-Ranges: bytes
+    Transfer-Encoding: chunked
+    Date: Wed, 29 Jun 2022 05:24:10 GMT
+    Via: 1.1 varnish
+    Connection: keep-alive
+    
 #2. Повторите задание 1 в браузере, используя консоль разработчика F12.
 
     откройте вкладку Network
@@ -18,6 +46,12 @@
     укажите в ответе полученный HTTP код.
     проверьте время загрузки страницы, какой запрос обрабатывался дольше всего?
     приложите скриншот консоли браузера в ответ.
+    
+    ![image](https://user-images.githubusercontent.com/104899352/176360310-cb1314e9-65fb-49dc-bb71-714c75665aa5.png)
+    
+    HTTP код перенаправления  307 Temporary Redirect означает, что запрошенный ресурс был временно перемещён в URL-адрес, указанный в заголовке Location.
+    
+    ![image](https://user-images.githubusercontent.com/104899352/176360904-d02c7159-2584-4b19-a2e4-37c9bd9d2f8c.png)
     
 #3. Какой IP адрес у вас в интернете?
 
