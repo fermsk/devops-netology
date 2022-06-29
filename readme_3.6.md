@@ -82,7 +82,8 @@
    
 ![image](https://user-images.githubusercontent.com/104899352/176364610-86fe2a52-dc39-43e4-aef3-2f7d8ba9af88.png)
 
-
 #7. Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи? воспользуйтесь утилитой dig
+
+![image](https://user-images.githubusercontent.com/104899352/176365322-312ba777-a54a-43ec-9532-551553447a8f.png)
 
 #8. Проверьте PTR записи для IP адресов из задания 7. Какое доменное имя привязано к IP? воспользуйтесь утилитой dig
