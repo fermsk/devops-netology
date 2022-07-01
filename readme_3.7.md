@@ -175,8 +175,50 @@
 
 #6. Задача: вас попросили организовать стык между 2-мя организациями. Диапазоны 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 уже заняты. Из какой подсети допустимо взять частные IP адреса? Маску выберите из расчета максимум 40-50 хостов внутри подсети.
 
+    От 100.64.0.0 до 100.127.255.255 с маской подсети 255.192.0.0 или /10; данная подсеть рекомендована согласно rfc6598 для использования в качестве адресов для CGN (Carrier-Grade NAT)
+    femsk@femsk-virtual-machine:~$ ipcalc 100.64.0.0/26
+    Address:   100.64.0.0           01100100.01000000.00000000.00 000000
+    Netmask:   255.255.255.192 = 26 11111111.11111111.11111111.11 000000
+    Wildcard:  0.0.0.63             00000000.00000000.00000000.00 111111
+    =>
+    Network:   100.64.0.0/26        01100100.01000000.00000000.00 000000
+    HostMin:   100.64.0.1           01100100.01000000.00000000.00 000001
+    HostMax:   100.64.0.62          01100100.01000000.00000000.00 111110
+    Broadcast: 100.64.0.63          01100100.01000000.00000000.00 111111
+    Hosts/Net: 62                    Class A
 
 #7. Как проверить ARP таблицу в Linux, Windows? Как очистить ARP кеш полностью? Как из ARP таблицы удалить только один нужный IP?
+
+    femsk@femsk-virtual-machine:~$ ip nei
+    10.0.22.171 dev ens160 lladdr 00:50:56:8e:c3:48 STALE
+    10.0.22.87 dev ens160 lladdr 1c:1b:0d:65:78:24 REACHABLE
+    10.0.22.xx dev ens160 lladdr 4c:00:82:14:49:5e STALE
+    10.0.22.248 dev ens160 lladdr 00:0c:29:c1:75:a0 STALE
+    femsk@femsk-virtual-machine:~$ arp -a
+    vmsrv-dhcp-02.aladdin.ru (10.0.22.171) at 00:50:56:8e:c3:48 [ether] on ens160
+    wks90.aladdin.ru (10.0.22.87) at 1c:1b:0d:65:78:24 [ether] on ens160
+    _gateway (10.0.22.xx) at 4c:00:82:14:49:5e [ether] on ens160
+    xxxx.ru (10.0.22.248) at 00:0c:29:c1:75:a0 [ether] on ens160
+    femsk@femsk-virtual-machine:~$
+    
+    Очистка ARP:
+    femsk@femsk-virtual-machine:~$ sudo ip nei flush dev ens160
+    
+    Удаление адреса:
+    ip neigh del {IP} dev {DEVICE}
+    
+    Windows:
+    
+    arp -a
+    
+    Очистка ARP:
+    
+    netsh interface ip delete arpcache
+    arp -d IP
+    
+    
+    
+    
 
 
 
