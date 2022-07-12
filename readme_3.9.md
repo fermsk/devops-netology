@@ -270,3 +270,15 @@
 
 #7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
 
+    femsk@femsk-virtual-machine:~/exch$ sudo tcpdump -c 100 -w dump.pcap
+    tcpdump: listening on ens160, link-type EN10MB (Ethernet), capture size 262144 bytes
+    100 packets captured
+    100 packets received by filter
+    0 packets dropped by kernel
+![image](https://user-images.githubusercontent.com/104899352/178451812-0b60fdbb-fdd4-4026-8958-49097753003d.png)
+
+
+
+    
+
+
