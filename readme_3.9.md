@@ -61,6 +61,154 @@
 
 #4. Проверьте на TLS уязвимости произвольный сайт в интернете (кроме сайтов МВД, ФСБ, МинОбр, НацБанк, РосКосмос, РосАтом, РосНАНО и любых госкомпаний, объектов КИИ, ВПК ... и тому подобное).
 
+    femsk@femsk-virtual-machine:/a2sv$ sudo apt-get install testssl.sh
+    ...
+    femsk@femsk-virtual-machine:/a2sv$ testssl randstuff.ru
+
+    No engine or GOST support via engine with your /usr/bin/openssl
+
+    ###########################################################
+        testssl       3.0 from https://testssl.sh/
+
+          This program is free software. Distribution and
+                 modification under GPLv2 permitted.
+          USAGE w/o ANY WARRANTY. USE IT AT YOUR OWN RISK!
+
+           Please file bugs @ https://testssl.sh/bugs/
+
+    ###########################################################
+
+     Using "OpenSSL 1.1.1f  31 Mar 2020" [~79 ciphers]
+     on femsk-virtual-machine:/usr/bin/openssl
+     (built: "Jul  4 11:24:28 2022", platform: "debian-amd64")
+
+
+     Start 2022-07-12 09:48:21        -->> 188.127.241.67:443 (randstuff.ru) <<--
+
+     rDNS (188.127.241.67):  --
+     Service detected:       HTTP
+
+
+     Testing protocols via sockets except NPN+ALPN
+
+     SSLv2      not offered (OK)
+     SSLv3      not offered (OK)
+     TLS 1      offered (deprecated)
+     TLS 1.1    offered (deprecated)
+     TLS 1.2    offered (OK)
+     TLS 1.3    offered (OK): final
+     NPN/SPDY   not offered
+     ALPN/HTTP2 h2, http/1.1 (offered)
+
+     Testing cipher categories
+
+     NULL ciphers (no encryption)                  not offered (OK)
+     Anonymous NULL Ciphers (no authentication)    not offered (OK)
+     Export ciphers (w/o ADH+NULL)                 not offered (OK)
+     LOW: 64 Bit + DES, RC[2,4] (w/o export)       not offered (OK)
+     Triple DES Ciphers / IDEA                     not offered
+     Obsolete: SEED + 128+256 Bit CBC cipher       offered
+     Strong encryption (AEAD ciphers)              offered (OK)
+
+
+     Testing robust (perfect) forward secrecy, (P)FS -- omitting Null Authentication/Encryption, 3DES, RC4
+
+     PFS is offered (OK)          TLS_AES_256_GCM_SHA384 TLS_CHACHA20_POLY1305_SHA256 ECDHE-RSA-AES256-GCM-SHA384
+                                  ECDHE-RSA-AES256-SHA384 ECDHE-RSA-AES256-SHA ECDHE-RSA-CHACHA20-POLY1305
+                                  TLS_AES_128_GCM_SHA256 ECDHE-RSA-AES128-GCM-SHA256 ECDHE-RSA-AES128-SHA256
+                                  ECDHE-RSA-AES128-SHA
+     Elliptic curves offered:     secp224r1 prime256v1 secp384r1 secp521r1 X25519
+
+
+     Testing server preferences
+
+     Has server cipher order?     yes (OK) -- TLS 1.3 and below
+     Negotiated protocol          TLSv1.3
+     Negotiated cipher            TLS_AES_128_GCM_SHA256, 253 bit ECDH (X25519)
+     Cipher order
+        TLSv1:     ECDHE-RSA-AES128-SHA AES128-SHA ECDHE-RSA-AES256-SHA AES256-SHA
+        TLSv1.1:   ECDHE-RSA-AES128-SHA AES128-SHA ECDHE-RSA-AES256-SHA AES256-SHA
+        TLSv1.2:   ECDHE-RSA-AES128-GCM-SHA256 ECDHE-RSA-CHACHA20-POLY1305 ECDHE-RSA-AES128-SHA256 ECDHE-RSA-AES128-SHA
+                   AES128-GCM-SHA256 AES128-CCM8 AES128-CCM AES128-SHA256 AES128-SHA ECDHE-RSA-AES256-GCM-SHA384
+                   ECDHE-RSA-AES256-SHA384 ECDHE-RSA-AES256-SHA AES256-GCM-SHA384 AES256-CCM8 AES256-CCM AES256-SHA256
+                   AES256-SHA
+        TLSv1.3:   TLS_AES_128_GCM_SHA256 TLS_CHACHA20_POLY1305_SHA256 TLS_AES_256_GCM_SHA384
+
+
+     Testing server defaults (Server Hello)
+
+     TLS extensions (standard)    "renegotiation info/#65281" "server name/#0" "EC point formats/#11" "session ticket/#35"
+                                  "supported versions/#43" "key share/#51" "max fragment length/#1"
+                                  "application layer protocol negotiation/#16" "encrypt-then-mac/#22"
+                                  "extended master secret/#23"
+     Session Ticket RFC 5077 hint 64800 seconds, session tickets keys seems to be rotated < daily
+     SSL Session ID support       yes
+     Session Resumption           Tickets: yes, ID: no
+     TLS clock skew               Random values, no fingerprinting possible
+     Signature Algorithm          SHA256 with RSA
+     Server key size              RSA 2048 bits
+     Server key usage             Digital Signature, Key Encipherment
+     Server extended key usage    TLS Web Server Authentication, TLS Web Client Authentication
+     Serial / Fingerprints        031965E5383404BE45C2FC7C6C3108208170 / SHA1 1CC00110868D110FCB8681615BF642EF781D2C1C
+                                  SHA256 A7AE46EB0314799BA5BC256F13620A4112A95D8FA313378F75FC6B1795A1694A
+     Common Name (CN)             randstuff.ru , (request w/o SNI: no CN field in subject)
+     subjectAltName (SAN)         randstuff.ru www.randstuff.ru
+     Issuer                       R3 (Let's Encrypt from US)
+     Trust (hostname)             Ok via SAN (SNI mandatory)
+     Chain of trust               Ok
+     EV cert (experimental)       no
+     ETS/"eTLS", visibility info  not present
+     Certificate Validity (UTC)   86 >= 60 days (2022-07-09 07:14 --> 2022-10-07 07:14)
+     # of certificates provided   3
+     Certificate Revocation List  --
+     OCSP URI                     http://r3.o.lencr.org
+     OCSP stapling                not offered
+     OCSP must staple extension   --
+     DNS CAA RR (experimental)    not offered
+     Certificate Transparency     yes (certificate extension)
+
+
+     Testing HTTP header response @ "/"
+
+     HTTP Status Code             200 OK
+     HTTP clock skew              0 sec from localtime
+     Strict Transport Security    not offered
+     Public Key Pinning           --
+     Server banner                ddos-guard
+     Application banner           X-Powered-By: PHP/7.1.33
+     Cookie(s)                    5 issued: NONE secure, 1/5 HttpOnly
+     Security headers             Cache-Control no-store, no-cache, must-revalidate
+                                  Pragma no-cache
+     Reverse Proxy banner         --
+
+
+     Testing vulnerabilities
+
+     Heartbleed (CVE-2014-0160)                not vulnerable (OK), no heartbeat extension
+     CCS (CVE-2014-0224)                       not vulnerable (OK)
+     Ticketbleed (CVE-2016-9244), experiment.  not vulnerable (OK), no session tickets
+     ROBOT                                     not vulnerable (OK)
+     Secure Renegotiation (RFC 5746)           supported (OK)
+     Secure Client-Initiated Renegotiation     VULNERABLE (NOT ok), DoS threat
+     CRIME, TLS (CVE-2012-4929)                not vulnerable (OK)
+     BREACH (CVE-2013-3587)                    potentially NOT ok, uses gzip HTTP compression. - only supplied "/" tested
+                                               Can be ignored for static pages or if no secrets in the page
+     POODLE, SSL (CVE-2014-3566)               not vulnerable (OK), no SSLv3 support
+     TLS_FALLBACK_SCSV (RFC 7507)              Check failed, unexpected result , run testssl -Z --debug=1 and look at /tmp/testssl.VZjOup/*tls_fallback_scsv.txt
+     SWEET32 (CVE-2016-2183, CVE-2016-6329)    not vulnerable (OK)
+     FREAK (CVE-2015-0204)                     not vulnerable (OK)
+     DROWN (CVE-2016-0800, CVE-2016-0703)      not vulnerable on this host and port (OK)
+                                               make sure you don't use this certificate elsewhere with SSLv2 enabled services
+                                               https://censys.io/ipv4?q=A7AE46EB0314799BA5BC256F13620A4112A95D8FA313378F75FC6B1795A1694A could help you to find out
+     LOGJAM (CVE-2015-4000), experimental      not vulnerable (OK): no DH EXPORT ciphers, no DH key detected with <= TLS 1.2
+     BEAST (CVE-2011-3389)                     TLS1: ECDHE-RSA-AES128-SHA AES128-SHA ECDHE-RSA-AES256-SHA AES256-SHA
+                                               VULNERABLE -- but also supports higher protocols  TLSv1.1 TLSv1.2 (likely mitigated)
+     LUCKY13 (CVE-2013-0169), experimental     potentially VULNERABLE, uses cipher block chaining (CBC) ciphers with TLS. Check patches
+     RC4 (CVE-2013-2566, CVE-2015-2808)        no RC4 ciphers detected (OK)
+
+
+        
+
 #5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.
 
 #6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
