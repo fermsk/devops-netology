@@ -252,8 +252,21 @@
     Last login: Mon Jan 24 04:33:14 2022
     [admin@alkms ~]$
 
-
 #6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
+
+    femsk@femsk-virtual-machine:~/.ssh$ mv id_rsa id_rsa_1
+    femsk@femsk-virtual-machine:~/.ssh$ chmod 600 config
+    femsk@femsk-virtual-machine:~/.ssh$ vim config
+    femsk@femsk-virtual-machine:~/.ssh$ cat config
+    Host alkms
+            HostName 10.0.22.1
+            IdentityFile ~/.ssh/id_rsa_1
+            User admin
+    femsk@femsk-virtual-machine:~/.ssh$ ssh alkms
+    Activate the web console with: systemctl enable --now cockpit.socket
+
+    Last login: Tue Jul 12 04:21:00 2022 from 10.0.22.81
+    [admin@alkms ~]$
 
 #7. Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
 
