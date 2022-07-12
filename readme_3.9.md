@@ -205,11 +205,53 @@
                                                VULNERABLE -- but also supports higher protocols  TLSv1.1 TLSv1.2 (likely mitigated)
      LUCKY13 (CVE-2013-0169), experimental     potentially VULNERABLE, uses cipher block chaining (CBC) ciphers with TLS. Check patches
      RC4 (CVE-2013-2566, CVE-2015-2808)        no RC4 ciphers detected (OK)
-
-
-        
+      
 
 #5. Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.
+
+    femsk@femsk-virtual-machine:/$ ssh-keygen -t rsa
+    Generating public/private rsa key pair.
+    Enter file in which to save the key (/home/femsk/.ssh/id_rsa):
+    Enter passphrase (empty for no passphrase):
+    Enter same passphrase again:
+    Your identification has been saved in /home/femsk/.ssh/id_rsa
+    Your public key has been saved in /home/femsk/.ssh/id_rsa.pub
+    The key fingerprint is:
+    SHA256:CQXNtcHuLTB7Lgo8vJkhR9IrjfjT7LJTKUvum20FShA femsk@femsk-virtual-machine
+    The key's randomart image is:
+    +---[RSA 3072]----+
+    |E.    .+.oo      |
+    |.      .o .o     |
+    | .    .  ..      |
+    |  ...  .o..      |
+    | ...oo  S= .     |
+    | .+Bo.. . + .    |
+    |.o+*X.   o .     |
+    | .**+B  . .      |
+    | .*O* .. .       |
+    +----[SHA256]-----+
+
+    femsk@femsk-virtual-machine:~/.ssh$ ssh-copy-id admin@10.0.22.1
+    /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/femsk/.ssh/id_rsa.pub"
+    The authenticity of host '10.0.22.1 (10.0.22.1)' can't be established.
+    ECDSA key fingerprint is SHA256:8ygOXEpveRfKA0n0v4GkozRPf43vE49JdBnGy3BGUNs.
+    Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+    Please type 'yes', 'no' or the fingerprint: yes
+    /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+    /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+    admin@10.0.22.1's password:
+
+    Number of key(s) added: 1
+
+    Now try logging into the machine, with:   "ssh 'admin@10.0.22.1'"
+    and check to make sure that only the key(s) you wanted were added.
+
+    femsk@femsk-virtual-machine:~/.ssh$ ssh 'admin@10.0.22.1'
+    Activate the web console with: systemctl enable --now cockpit.socket
+
+    Last login: Mon Jan 24 04:33:14 2022
+    [admin@alkms ~]$
+
 
 #6. Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
 
